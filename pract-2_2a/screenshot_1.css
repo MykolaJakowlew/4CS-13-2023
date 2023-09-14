@@ -1,0 +1,123 @@
+body {
+ margin: 0;
+ background-color: rgb(229 229 229);
+}
+
+.content {
+ width: 60%;
+ max-width:1400px;
+ margin: auto;
+ /* margin: 0 calc((100% - 1600px) / 2); */
+ height: 100vh;
+ padding: 40px;
+ box-sizing: border-box;
+}
+
+.title {
+ width:100%;
+ font-size: 40px;
+ text-transform: capitalize;
+ text-align: center;
+}
+
+.sub-title {
+ width:100%;
+ font-size: 20px;
+ text-align: center;
+ margin: 40px 0;
+}
+
+
+footer {
+ width:100%;
+ padding: 15px 0;
+ text-align: center;
+ font-size: 18px;
+}
+
+footer>span {
+ text-decoration: underline;
+}
+
+#pictures {
+ width:100%;
+ height: calc(100vh - 40px - 20px - 40px - 40px - 40px - 40px - 15px - 15px - 18px);
+ display: flex;
+}
+.section {
+ width:50%;
+ height:100%;
+}
+
+.big-picture {
+ width:100%;
+ height: 55%;
+ background-color: fuchsia;
+ background-size: cover;
+ background-position: center;
+}
+
+.sub-section {
+ width:100%;
+height: 45%;
+display: flex;
+}
+
+.sub-section > .text,
+.sub-section > .picture{
+ width:50%;
+ height: 100%;
+ box-sizing: border-box;
+ padding: 5px;
+}
+.sub-section > .picture {
+ background-size: cover;
+ background-position: center;
+ background-color: chocolate;
+}
+
+#bg-1 {
+ background-image: url('./imgs/team-builders_131590-244.avif');
+}
+
+#bg-2 {
+ background-image: url('./imgs/team-builders_2.avif');
+}
+
+#p-1 {
+ background-image: url('./imgs/vert-1.avif');
+}
+#p-2 {
+ background-image: url('./imgs/vert-2.avif');
+}
+
+#t-2 {
+ background-color: white;
+
+}
+
+.number {
+ font-size:60px;
+ font-weight: bolder;
+}
+
+#t-1>.number {
+ color: white
+}
+#t-2>.number {
+ color: orange
+}
+.text {
+ text-align: center;
+ font-size: 25px;
+ text-transform: capitalize;
+ display: flex;
+ justify-content: center;
+ align-items: center ;
+ flex-direction: column;
+}
+
+#t-1 {
+ background-color: orange;
+ color: white
+}
