@@ -1,0 +1,167 @@
+:root{
+ --main-white: #ffffff;
+ --main-pink: #fbeced;
+ --main-grey: #f2f2f2;
+ --main-purpure: #f0effd;
+}
+
+body {
+ margin: 0;
+ background-color: var(--main-white);
+}
+
+.content {
+ width:60%;
+ min-width: 900px;
+ max-width: 1200px;
+
+ margin: auto;
+
+}
+
+header {
+ width: 100%;
+ display: flex;
+
+ >li {
+  list-style-type: none;
+
+  font-size: 1.25em;
+  text-transform: capitalize;
+
+  padding: 30px;
+
+  cursor: pointer;
+  color: black;
+  transition: 0.25s;
+  box-sizing: border-box;
+
+  &:hover {
+   border-bottom: 2px solid grey;
+  }
+ }
+}
+
+
+.main-banner {
+ box-sizing: border-box;
+ margin-top: 60px;
+ margin-bottom: 60px;
+ width:100%;
+ height: 600px;
+
+ border-radius: 25px;
+ background-image: url('./images/4a/pexels-photo-1115804.jpeg');
+ background-position: center;
+ background-size: cover;
+
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+
+ color: var(--main-white);
+
+ padding: 20px;
+
+ .title {
+  font-size: 5em;
+ }
+
+ .description {
+  font-size: 1.5em;
+ }
+
+ .section {
+  width: 50%;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 20px;
+
+  background-color: var(--main-grey);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  >input,>button {
+   padding: 15px;
+   border-radius: 15px;
+  }
+
+  >input {
+   flex-grow: 3;
+   border: unset;
+  }
+
+  >button {
+   box-sizing: border-box;
+   margin-left: 10px;
+   border: unset;
+   background-color: black;
+   color: white;
+   text-transform: uppercase;
+  }
+ }
+}
+
+.gallery {
+ width:100%;
+ background-color: var(--main-pink);
+
+ >.content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 50px;
+  row-gap: 50px;
+
+  padding: 40px 0;
+  >.item {
+   width: 100%;
+   height: 100%;
+
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   align-items: center;
+
+   >.item-city-name {
+    font-weight: bolder;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 5% 0;
+   }
+
+   >.item-image {
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    width: 60%;
+    background-position: center;
+    background-size: cover;
+   }
+
+   >.item-image[cityName='paris'] {
+    background-image: url('./images/4a/paris.jpeg');
+   }
+
+   >.item-image[cityName='New York'] {
+    background-image: url('./images/4a/pexels-photo-1029615.jpeg');
+   }
+
+   >.item-image[cityName='Los Angeles'] {
+    background-image: url('./images/4a/pexels-photo-1115804.jpeg');
+   }
+
+   >.item-image[cityName='Chicago'] {
+    background-image: url('./images/4a/pexels-photo-1769369.jpeg');
+   }
+
+   >.item-image[cityName='Verona'] {
+    background-image: url('./images/4a/pexels-photo-2090651.jpeg');
+   }
+
+   >.item-image[cityName='Tokio'] {
+    background-image: url('./images/4a/pexels-photo-325185.jpeg');
+   }
+  }
+ }
+}
