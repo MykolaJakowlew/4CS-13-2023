@@ -1,0 +1,44 @@
+.container {
+ width:100%;
+ /* display: flex;
+ flex-wrap: wrap; */
+
+ /* display: grid;
+ grid-template-columns: repeat(5,1fr);
+ grid-template-rows: auto; */
+
+ >div {
+  display: flex;
+  >.item {
+   width:100px;
+   height:100px;
+   background-color: red;
+   margin: 10px;
+   box-sizing: border-box;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: white;
+   font-size: 2em;
+
+   animation: appear-item 0.5s var(--anim-delay) both;
+  }
+
+  >.empty {
+   transition: 0.75s;
+   opacity: 0 !important;
+  } 
+ }
+}
+
+@keyframes appear-item {
+ 0%{
+  opacity: 0;
+  transform: scale(0.75);
+ }
+
+ 100% {
+  opacity: 1;
+  transform: scale(1);
+ }
+}
