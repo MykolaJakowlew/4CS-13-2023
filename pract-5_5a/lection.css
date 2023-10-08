@@ -1,34 +1,26 @@
 .container {
- width:100%;
- /* display: flex;
- flex-wrap: wrap; */
+ width: 100%;
+ display: flex;
+ flex-wrap: wrap;
+}
 
- /* display: grid;
- grid-template-columns: repeat(5,1fr);
- grid-template-rows: auto; */
+.item {
+ width:50px;
+ aspect-ratio: 1/1;
+ background-color: var(--bg-color);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ color: white;
+ margin: 5px;
+ box-sizing: border-box;
 
- >div {
-  display: flex;
-  >.item {
-   width:100px;
-   height:100px;
-   background-color: red;
-   margin: 10px;
-   box-sizing: border-box;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   color: white;
-   font-size: 2em;
+ animation: appear-item 0.75s var(--anim-delay) backwards;
+}
 
-   animation: appear-item 0.5s var(--anim-delay) both;
-  }
-
-  >.empty {
-   transition: 0.75s;
-   opacity: 0 !important;
-  } 
- }
+.empty {
+ opacity: 0;
+ transition: 0.25s 
 }
 
 @keyframes appear-item {

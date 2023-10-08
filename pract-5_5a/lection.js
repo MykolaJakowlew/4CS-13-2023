@@ -10,7 +10,7 @@ a = "123213";
 a = "sdfmksd fsdlk nlsdfn";
 
 const b = "123";
-b = 56;
+// b = 56; -> error
 
 console.log(a, b, "sdfsdf "/*, ...*/);
 // console.error(a, b, "sdfsdf "/*, ...*/);
@@ -207,66 +207,55 @@ arrowFunc1();
 }
 
 {
- const date = new Date();
- console.log(date);
- console.log(date.getFullYear());
-}
+ const humanFirstName = "first name 1";
+ const humanLastName = "last name 1";
+ const humanAge = 45;
 
-{
- let human = {
-  firstName: "name",
-  lastName: "sut name",
+ const human = {
+  firstName: 'f1',
+  lastName: 'l1',
   age: 45,
-  // ...
+  // cityName: 'Lviv'
  };
 
- console.log('first name:', human.firstName);
+ console.log('human 1', human.firstName, human.lastName, human.age);
+ console.log('human 1', human); // human 1 [Object object]
+ console.log('human 1', JSON.stringify(human)); // human 1 { firstName: 'f1',lastName: 'l1', age: 45 }
 
- const getFullInfo = (human) => {
-  return `first name:${human.firstName}, last name:${human.lastName}, age: ${human.age}`;
- };
+ human.age = 78;
+ // human = { g: 56 } // => error
+ human.cityName = 'Lviv';
 
- const fullInfo = getFullInfo(human);
- console.log(getFullInfo({
-  firstName: 'f1', lastName: 'l1', age: 67
- }));
+ delete human.cityName;
 
- let arr = [
-  { firstName: 'f2', lastName: 'l2'}, // 0
-  { firstName: 'f3', lastName: 'l3'}, // 1
-  { firstName: 'f4', lastName: 'l4'}, // 2
-  { firstName: 'f5', lastName: 'l5'}, // 3
+ /**
+  * car: { license: string, model: string }
+  */
+
+ human.car = { license: 'license 1', model: 'model 1' };
+ human.car.license = 'license editable';
+
+ const students = [
+  { firstName: 'f1' }, // 0
+  { firstName: 'f2' }, // 1
+  { firstName: 'f3' }, // 2
+  { firstName: 'f4' }, // 3
  ];
 
- console.log('[2] first name:', arr[2]); // [2] first name: [Object object]
- console.log('[2] first name:', arr[2].firstName); // [2] first name: f4
- console.log('[2] first name:', JSON.stringify(arr[2]));
- // [2] first name: { firstName: 'f4', lastName: 'l4'}
+ students[3].firstName = 'f3 editable';
 
- /**
-  * Поміняти ім'я в останього елмента масиву arr
-  * l5 => last name 5
-  */
+ const newStudent = { firstName: 'f5' };
+ students[1] = newStudent;
 
- arr[3].lastName = "last name 5"
+ newStudent.lastName = 'l5';
+
+ console.log(JSON.stringify(students[1])); // { firstName: 'f5', lastName: 'l5' }
+
+ let str = '{ "value": 65, "text": "str -1", "sub": { "name": "qwerty"} }';
+
+ const q = JSON.parse(str);
+
+ console.log(q.value); // => 65
+ console.log(q.text); // => "str -1"
+
 }
-
-{
- /**
-  * =  - присвоєння значення
-  * == - порівння без перевірки типів
-  * === - порівняня з перевіркою типів
-  */
-
-  let b = 56;
-  b = "124325"
-
-  let a = 124325;
-
-  console.log(a == b); // true
-  console.log(a === b); // false
-}
-
-
-/*********************************************************/
-

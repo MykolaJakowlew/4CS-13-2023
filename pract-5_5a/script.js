@@ -1,67 +1,64 @@
-// document.body.innerText = "Hello world";
-// document.body.innerHTML;
-/**
- * Uncaught TypeError: Cannot set properties of null (setting 'innerText')
- */
-// document.getElementById("hello-world").innerText = "hello world";
-
-window.addEventListener('load', () => {
- document.getElementById("hello-world").innerText = `
- <div style="width:100px;height:100px; background:red">
- </div>`;
-
- const someHtml = document.getElementById("some-html");
-
- someHtml.innerHTML = `
- <div style="width:100px;height:100px; background:red">
- </div>`;
+// document.body.innerText += "Hello world";
 
 
+const button = document.getElementById("btn-1");
 
- const btn = document.getElementById("btn1");
- const input = document.getElementById("count-of-squares"); // value | null
- const containers = document.getElementsByClassName("container"); // [v1,v2, ..] || []
- btn.addEventListener('click', () => {
-  const value = input.value; // "123" | ""
-  if (!value) {
-   return;
-  }
+const input = document.getElementById("input");
 
-  // const numberValue = parseInt(value);
-  const numberValue = +value;
-  containers[0].innerHTML = "";
-  for (let i = 0; i < numberValue / 5; i += 1) {
-   // containers[0].innerHTML += `
-   // <div class="item" style="--anim-delay:${i * 0.2}s">${i + 1}</div>
-   // `;
-   let str = '';
-   for (let j = 0; j < 5; j += 1) {
+const containers = document.getElementsByClassName("container");
 
-    const index = i * 5 + j + 1;
-    str += `
-    <div class="item" style="--anim-delay:${index * 0.2}s">${index}</div>
-    `;
-   }
-   containers[0].innerHTML += `<div>${str}</div>`;
-
-
-   const items = document.getElementsByClassName('item');
-
-   for (const item of items) {
-    item.addEventListener('click', () => {
-     console.log("I clicked", item.innerText);
-     // item.remove();
-     item.className += " empty";
-    });
-   }
-
-
-
-   // containers[0].innerHTML +=
-   //  '<div class="item">'
-   //  + i
-   //  + '</div>';
-  }
-  // containers[0].innerHTML = containers[0].innerHTML + `<div class="item"></div>`;
- });
+document.getElementById("btn-2").addEventListener('click', () => {
+ const value = document.getElementById("color-count").value;
+ const container = document.getElementById('colors');
+ container.innerHTML = '';
+ for (let i = 0; i < value; i += 1) {
+  container.innerHTML += `<input class="color" type="color" />`;
+ }
 });
+
+button.addEventListener('click', () => {
+ const value = input.value;
+ containers[0].innerHTML = '';
+
+ const colors = document.getElementsByClassName('color');
+ const set = [];
+ for (const color of colors) {
+  set.push(color.value);
+ }
+
+ for (let i = 0; i < value; i += 1) {
+  const delay = i * 0.2;
+
+  const max = 255;
+  const min = 0;
+  const redValue = Math.floor(Math.random() * (max - min + 1) + min);
+  const greenValue = Math.floor(Math.random() * (max - min + 1) + min);
+  const blueValue = Math.floor(Math.random() * (max - min + 1) + min);
+  // Math.floor(1.7) => 1
+  // Math.ceil(1.25) => 2
+
+  const color = set[Math.floor(Math.random() * set.length)];
+  containers[0].innerHTML += `
+   <div 
+    class="item"
+    style="
+     --anim-delay:${delay}s;
+     // --bg-color:rgb(${redValue},${greenValue},${blueValue});
+     --bg-color:${color}
+    "
+   >${i + 1}</div>`;
+  // containers[0].innerHTML += '<div class="item">' + i + "</div>";
+ }
+
+ const items = document.getElementsByClassName('item');
+
+ for (const item of items) {
+  item.addEventListener('click', () => {
+   // item.remove();
+   item.classList.toggle('empty');
+   // item.className += ' empty';
+  });
+ }
+});
+
+
