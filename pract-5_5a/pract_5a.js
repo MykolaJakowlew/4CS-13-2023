@@ -66,3 +66,23 @@ for (const span of spans) {
   wordDescription.innerText = text;
  });
 }
+
+
+
+let letter = '6';
+if (/[a-z]/.test(letter)) {
+ console.log('small')
+} 
+
+if (/[0-9]/.test(letter)) {
+ console.log('digit')
+}
+if (/[A-Z]/.test(letter)) {
+ console.log('digit')
+}
+
+
+const imagesMap = {
+ a: `<img src"small_a">`,
+ A: `<img src"A">`,
+}
