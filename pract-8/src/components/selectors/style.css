@@ -1,0 +1,8 @@
+.selector-wrapper {
+ color: whitesmoke;
+ font-size: 1.5em;
+}
+
+.selector-wrapper select {
+ width: 65%;
+}
