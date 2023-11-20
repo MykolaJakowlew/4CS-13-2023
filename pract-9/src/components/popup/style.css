@@ -1,0 +1,14 @@
+.popup-wrapper {
+ width: 400px;
+ aspect-ratio: 1/1.2;
+ background-color: white;
+ color: black;
+ border-radius: 20px;
+ padding: 16px;
+
+ position: absolute;
+ z-index: 20;
+
+ top: 100px;
+ left: 100px;
+}
