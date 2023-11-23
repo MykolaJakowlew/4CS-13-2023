@@ -39,3 +39,14 @@
  transform: scale(1.2);
  border: 1px solid;
 }
+
+.day-wrapper .event {
+ width: 100px;
+ background: whitesmoke;
+ color: black;
+ padding: 10px;
+ border-radius: 5px;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+}

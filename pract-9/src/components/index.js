@@ -27,11 +27,58 @@ function App () {
     });
   };
 
+  const [events, setEvents] = useState({});
+  const addEvent = (event) => {
+    /**
+     * {
+     *   "2022-05-23": [
+     *     { title, description, date: "2022-05-23T10:10:10" }
+     *   ],
+     *   "2022-05-24": [
+     *     { title, description, date: "2022-05-23T10:10:10" }
+     *   ]
+     * }
+     */
+    let eventsFromLocalStorage = localStorage.getItem('events');
+
+    if (!eventsFromLocalStorage) {
+      eventsFromLocalStorage = {};
+    } else {
+      eventsFromLocalStorage = JSON.parse(eventsFromLocalStorage);
+    }
+
+    if (eventsFromLocalStorage[event.key]) {
+      eventsFromLocalStorage[event.key].push(event);
+    } else {
+      eventsFromLocalStorage[event.key] = [event];
+    }
+
+    localStorage.setItem('events', JSON.stringify(eventsFromLocalStorage));
+
+    setEvents(eventsFromLocalStorage);
+  };
+
   useEffect(() => {
     const currentDate = localStorage.getItem("currentDate");
     if (currentDate) {
       _setCurrentDate(new Date(currentDate));
     }
+
+    let eventsFromLocalStorage = localStorage.getItem('events');
+
+    if (!eventsFromLocalStorage) {
+      eventsFromLocalStorage = {};
+    } else {
+      eventsFromLocalStorage = JSON.parse(eventsFromLocalStorage, (key, value) => {
+        if (key === 'date') {
+          return new Date(value);
+        }
+
+        return value;
+      });
+    }
+
+    setEvents(eventsFromLocalStorage);
   }, []);
 
 
@@ -68,9 +115,12 @@ function App () {
     }
   }
 
+
   return (
     <div className="App">
       <CalendarContext.Provider value={{
+        events,
+        addEvent,
         currentDate,
         setSelectedPeriod,
         setCurrentDate,
