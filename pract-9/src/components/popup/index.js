@@ -15,12 +15,15 @@ const PopupComponent = () => {
 
  return (
   <div className='popup-wrapper' style={{ top: y, left: x }}>
-   <div>Title: <input /></div>
-   <div>Date: {createEvent.date.toLocaleString()}</div>
    <div>
-    Description:
-    <textarea></textarea>
+    <div>Date: {createEvent.date.toLocaleString()}</div>
+    <div>Title: <input /></div>
+    <div>
+     Description:
+     <textarea></textarea>
+    </div>
    </div>
+   <button>save</button>
   </div>
  );
 };
