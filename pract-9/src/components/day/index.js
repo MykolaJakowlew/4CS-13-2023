@@ -1,28 +1,28 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import './style.css';
 import CalendarContext from '../../context/calendar.context';
-
+import EventComponent from './event';
 
 const DayComponent = () => {
 
-  const {
-    setCreateEvent,
-    currentDate,
-    events = {}
-  } = useContext(CalendarContext);
+  const { setCreateEvent, currentDate, events } = useContext(CalendarContext);
 
-  const click = (event, hours) => {
-    if (event.target !== event.currentTarget) {
-      event.stopPropagation();
-      return;
-    }
-
-    const newDate = new Date(currentDate);
-    newDate.setHours(hours);
-    setCreateEvent({ date: newDate, x: event.clientX, y: event.clientY, });
+  const click = (hour, x, y) => {
+    const date = new Date(currentDate);
+    date.setHours(hour);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    setCreateEvent({
+      date: date,
+      clientX: x,
+      clientY: y
+    });
   };
 
-  const key = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDay()}`;
+  const key = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
+  /**
+   * eventsToday => [] || undefined
+   */
   const eventsToday = events[key] || [];
 
   return (
@@ -37,17 +37,17 @@ const DayComponent = () => {
                 </div>
                 <div
                   className='content'
-                  onClick={(event) => click(event, index)}>
-                  {eventsToday.map(event => {
-                    const hour = event.date.getHours();
-                    if (hour !== index) {
+                  onClick={(event) => click(index, event.clientX, event.clientY)}>
+                  {
+                    eventsToday.map(event => {
+                      const date = new Date(event.date);
+                      const hour = date.getHours();
+                      if (hour === index) {
+                        return (<EventComponent event={event} />);
+                      }
                       return null;
-                    }
-                    return (
-                      <div className='event'>
-                        Title: {event.title}
-                      </div>);
-                  })}
+                    })
+                  }
                 </div>
               </div>
             );

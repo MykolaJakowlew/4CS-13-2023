@@ -6,56 +6,77 @@ import CalendarContext from '../../context/calendar.context';
 
 const PopupComponent = () => {
 
- const { createEvent, setCreateEvent, addEvent } = useContext(CalendarContext);
+ const { createEvent, setCreateEvent, addEvent, updateEvent } = useContext(CalendarContext);
 
  const inputRef = useRef();
- const textAreaRef = useRef();
+ const textareaRef = useRef();
 
- if (!createEvent) {
+ if (createEvent == null) {
   return null;
  }
 
- const x = createEvent.x;
- const y = createEvent.y;
+ const top = createEvent.clientY;
+ const left = createEvent.clientX;
+ const date = createEvent.date;
 
  const close = () => {
   setCreateEvent(null);
  };
 
- const click = () => {
-  const key = `${createEvent.date.getFullYear()}-${createEvent.date.getMonth()}-${createEvent.date.getDay()}`;
+ const isEditMode = Boolean(createEvent.id);
+
+
+ const save = () => {
 
   const title = inputRef.current.value;
-  const description = textAreaRef.current.value;
+  const description = textareaRef.current.value;
 
-  const eventData = {
-   key,
-   title,
-   description,
-   date: createEvent.date,
-  };
-  console.log(`eventData:${JSON.stringify(eventData)}`);
+  if (isEditMode) {
+   updateEvent({
+    id: createEvent.id,
+    date,
+    title,
+    description,
+   });
+  } else {
+   addEvent({
+    date,
+    title,
+    description,
+   });
+  }
 
-  addEvent(eventData);
 
   close();
  };
 
  return (
-  <div className='popup-wrapper' style={{ top: y, left: x }}>
+  <div
+   style={{ top: top, left: left }}
+   className='popup-wrapper'>
    <FontAwesomeIcon icon={faClose} id='popup-close' onClick={close} />
    <div>
-    <div>Date: {createEvent.date.toLocaleString()}</div>
-    <div>Title: <input ref={inputRef} /></div>
-    <div>
+    <div>Date: {date.toLocaleString()}</div>
+    <div className='popup-title'>
+     Title:
+     <input
+      ref={inputRef}
+      defaultValue={isEditMode ? createEvent.title : ""}
+     />
+    </div>
+    <div className='popup-description'>
      Description:
-     <textarea ref={textAreaRef}></textarea>
+     <textarea
+      ref={textareaRef}
+      defaultValue={isEditMode ? createEvent.description : ""}
+     ></textarea>
     </div>
    </div>
-   <button onClick={click}>save</button>
+   <button onClick={save}>save</button>
   </div>
  );
-};
 
+
+};
 
 export default PopupComponent;

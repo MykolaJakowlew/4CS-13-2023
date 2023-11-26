@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as uuid from 'uuid';
 import CalendarContext from '../context/calendar.context';
 import './style.css';
 import CurrentDateComponent from './currentDate';
@@ -12,7 +13,6 @@ import PopupComponent from './popup';
 
 function App () {
 
-
   // const currentDateHook = useState(new Date()); // => Array size 2
   // const currentDate = currentDateHook[0];
   // const setCurrentDate = currentDateHook[1]];
@@ -20,56 +20,31 @@ function App () {
   const setCurrentDate = (callbackFunction) => {
     _setCurrentDate((prevDate) => {
       const newDate = callbackFunction(prevDate);
-
-      localStorage.setItem('currentDate', newDate.toISOString());
-
+      localStorage.setItem("currentDate", newDate.toISOString());
       return newDate;
     });
   };
 
+  /**
+   * {
+   *   "2022-12-12": [
+   *    { title, description, date: "2022-12-12T14:00:00"},
+   *    { title, description, date: "2022-12-12T14:00:00"},
+   *    { title, description, date: "2022-12-12T15:00:00"},
+   *   ],
+   *   "2022-12-13": [
+   *     { title, description, date: "2022-12-12T14:00:00"},
+   *   ]
+   * }
+   */
   const [events, setEvents] = useState({});
   const addEvent = (event) => {
-    /**
-     * {
-     *   "2022-05-23": [
-     *     { title, description, date: "2022-05-23T10:10:10" }
-     *   ],
-     *   "2022-05-24": [
-     *     { title, description, date: "2022-05-23T10:10:10" }
-     *   ]
-     * }
-     */
-    let eventsFromLocalStorage = localStorage.getItem('events');
-
-    if (!eventsFromLocalStorage) {
-      eventsFromLocalStorage = {};
+    event.id = uuid.v1();
+    let eventFromLocalStorage = localStorage.getItem("events");
+    if (!eventFromLocalStorage) {
+      eventFromLocalStorage = {};
     } else {
-      eventsFromLocalStorage = JSON.parse(eventsFromLocalStorage);
-    }
-
-    if (eventsFromLocalStorage[event.key]) {
-      eventsFromLocalStorage[event.key].push(event);
-    } else {
-      eventsFromLocalStorage[event.key] = [event];
-    }
-
-    localStorage.setItem('events', JSON.stringify(eventsFromLocalStorage));
-
-    setEvents(eventsFromLocalStorage);
-  };
-
-  useEffect(() => {
-    const currentDate = localStorage.getItem("currentDate");
-    if (currentDate) {
-      _setCurrentDate(new Date(currentDate));
-    }
-
-    let eventsFromLocalStorage = localStorage.getItem('events');
-
-    if (!eventsFromLocalStorage) {
-      eventsFromLocalStorage = {};
-    } else {
-      eventsFromLocalStorage = JSON.parse(eventsFromLocalStorage, (key, value) => {
+      eventFromLocalStorage = JSON.parse(eventFromLocalStorage, (key, value) => {
         if (key === 'date') {
           return new Date(value);
         }
@@ -78,19 +53,103 @@ function App () {
       });
     }
 
-    setEvents(eventsFromLocalStorage);
+    const key = `${event.date.getFullYear()}-${event.date.getMonth()}-${event.date.getDate()}`;
+
+    if (eventFromLocalStorage[key]) {
+      eventFromLocalStorage[key].push(event);
+    } else {
+      eventFromLocalStorage[key] = [event];
+    }
+
+    localStorage.setItem('events', JSON.stringify(eventFromLocalStorage));
+
+
+    setEvents(eventFromLocalStorage);
+  };
+
+  const updateEvent = (event) => {
+    let eventFromLocalStorage = localStorage.getItem("events");
+    if (!eventFromLocalStorage) {
+      eventFromLocalStorage = {};
+    } else {
+      eventFromLocalStorage = JSON.parse(eventFromLocalStorage, (key, value) => {
+        if (key === 'date') {
+          return new Date(value);
+        }
+
+        return value;
+      });
+    }
+
+    const key = `${event.date.getFullYear()}-${event.date.getMonth()}-${event.date.getDate()}`;
+
+
+    eventFromLocalStorage[key] = eventFromLocalStorage[key]
+      .map(el => {
+        if (el.id !== event.id) {
+          return el;
+        }
+
+        return event;
+      });
+
+    localStorage.setItem('events', JSON.stringify(eventFromLocalStorage));
+
+
+    setEvents(eventFromLocalStorage);
+  };
+
+  const removeEvent = (event) => {
+    let eventFromLocalStorage = localStorage.getItem("events");
+    if (!eventFromLocalStorage) {
+      eventFromLocalStorage = {};
+    } else {
+      eventFromLocalStorage = JSON.parse(eventFromLocalStorage, (key, value) => {
+        if (key === 'date') {
+          return new Date(value);
+        }
+
+        return value;
+      });
+    }
+
+    const key = `${event.date.getFullYear()}-${event.date.getMonth()}-${event.date.getDate()}`;
+
+    eventFromLocalStorage[key] = eventFromLocalStorage[key]
+      .filter(el => el.id !== event.id);
+
+    localStorage.setItem('events', JSON.stringify(eventFromLocalStorage));
+
+
+    setEvents(eventFromLocalStorage);
+  };
+
+  useEffect(() => {
+    const date = localStorage.getItem("currentDate");
+    if (date) {
+      _setCurrentDate(new Date(date));
+    }
+    let eventFromLocalStorage = localStorage.getItem("events");
+    if (!eventFromLocalStorage) {
+      eventFromLocalStorage = {};
+    } else {
+      eventFromLocalStorage = JSON.parse(eventFromLocalStorage, (key, value) => {
+        if (key === 'date') {
+          return new Date(value);
+        }
+
+        return value;
+      });
+    }
+    setEvents(eventFromLocalStorage);
   }, []);
 
+  const [selectedPeriod, _setSelectedPeriod] = useState('years');
 
-  const [selectedPeriod, _setSelectedPeriod] = useState('month');
   const setSelectedPeriod = (callbackFunction) => {
     _setSelectedPeriod(callbackFunction);
   };
 
-  const [createEvent, _setCreateEvent] = useState(null);
-  const setCreateEvent = (callbackFunction) => {
-    _setCreateEvent(callbackFunction);
-  };
   let content = null;
 
   switch (selectedPeriod) {
@@ -115,17 +174,21 @@ function App () {
     }
   }
 
+  const [createEvent, _setCreateEvent] = useState(null);
+  const setCreateEvent = (value) => _setCreateEvent(value);
 
   return (
     <div className="App">
       <CalendarContext.Provider value={{
         events,
         addEvent,
+        updateEvent,
+        removeEvent,
+        createEvent,
         currentDate,
         setSelectedPeriod,
         setCurrentDate,
-        createEvent,
-        setCreateEvent,
+        setCreateEvent
       }}>
         <PopupComponent />
         <header>
