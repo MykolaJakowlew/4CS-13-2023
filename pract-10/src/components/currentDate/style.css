@@ -1,0 +1,16 @@
+.current-date-wrapper {
+ font-size: 62px;
+ grid-template-rows: repeat(2, 62px);
+ width:100%;
+ height: 100%;
+  grid-column-start: 1;
+  grid-column-end: calc(var(--header-grid-cols) + 1);
+ display: grid;
+ justify-content: center;
+ align-items: center;
+}
+
+.current-date-wrapper #today {
+ justify-self: center;
+ align-self: center;
+}
